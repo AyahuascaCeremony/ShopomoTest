@@ -12,7 +12,7 @@ namespace VeInteractiveAssessment.OneTimePassword.Tests
         [Test]
         public void GeneratedPasswordIsValidForTheCorrectUserId()
         {
-            var passwordGenerator = new OneTimePasswordGenerator(new RealDateTime());
+            var passwordGenerator = new OneTimePasswordGenerator(new RealDateTime(), new StubLoginAuditer());
             const string userId = "User01";
 
             var password = passwordGenerator.GenerateFor(userId);
@@ -23,7 +23,7 @@ namespace VeInteractiveAssessment.OneTimePassword.Tests
         [Test]
         public void GeneratedPasswordIsNotValidForAnIncorrectUserId()
         {
-            var passwordGenerator = new OneTimePasswordGenerator(new RealDateTime());
+            var passwordGenerator = new OneTimePasswordGenerator(new RealDateTime(), new StubLoginAuditer());
 
             var password = passwordGenerator.GenerateFor("User01");
 
@@ -34,7 +34,7 @@ namespace VeInteractiveAssessment.OneTimePassword.Tests
         public void PasswordStillValidAfterTwentyNineSeconds()
         {
             var dateTime = new StubDateTime();
-            var passwordGenerator = new OneTimePasswordGenerator(dateTime);
+            var passwordGenerator = new OneTimePasswordGenerator(dateTime, new StubLoginAuditer());
 
             const string userId = "User01";
 
@@ -49,7 +49,7 @@ namespace VeInteractiveAssessment.OneTimePassword.Tests
         public void PasswordIsInvalidAfterThirtyOneSeconds()
         {
             var dateTime = new StubDateTime();
-            var passwordGenerator = new OneTimePasswordGenerator(dateTime);
+            var passwordGenerator = new OneTimePasswordGenerator(dateTime, new StubLoginAuditer());
 
             const string userId = "User01";
 
@@ -64,7 +64,7 @@ namespace VeInteractiveAssessment.OneTimePassword.Tests
         public void PasswordIsInvalidAfterOneMinuteAndOneSecond()
         {
             var dateTime = new StubDateTime();
-            var passwordGenerator = new OneTimePasswordGenerator(dateTime);
+            var passwordGenerator = new OneTimePasswordGenerator(dateTime, new StubLoginAuditer());
 
             const string userId = "User01";
 

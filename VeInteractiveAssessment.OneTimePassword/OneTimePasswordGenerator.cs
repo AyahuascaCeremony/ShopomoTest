@@ -7,10 +7,12 @@ namespace VeInteractiveAssessment.OneTimePassword
     {
         private readonly IDateTime _dateTime;
         private readonly Dictionary<string, OneTimePassword> _storedUserPasswords = new Dictionary<string, OneTimePassword>();
+        private IAuditLoginFailures _loginAuditor;
 
-        public OneTimePasswordGenerator(IDateTime dateTime)
+        public OneTimePasswordGenerator(IDateTime dateTime, IAuditLoginFailures loginAuditor)
         {
             _dateTime = dateTime;
+            _loginAuditor = loginAuditor;
         }
 
         public string GenerateFor(string userId)
@@ -37,6 +39,7 @@ namespace VeInteractiveAssessment.OneTimePassword
                 }
             }
 
+            _loginAuditor.Audit(userId, _dateTime.Now());
             return false;
         }
 
